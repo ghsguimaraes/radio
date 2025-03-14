@@ -1,0 +1,21 @@
+# Mata instâncias anteriores do VLC para evitar sobrecarga
+echo "Matando processos VLC antigos..."
+pkill vlc
+
+echo "Iniciando reprodução dos streams de áudio..."
+
+# Lista de URLs das transmissões de áudio
+URLS="
+
+https://ssl1.transmissaodigital.com:20101/HELI127.35RCB
+https://ssl1.transmissaodigital.com:20015/118.350aeroescuta
+
+# Adicione mais URLs conforme necessário"
+
+# Percorre a lista e inicia cada URL em uma instância separada do VLC
+for url in $URLS; do
+    nohup cvlc "$url" --aout=alsa --no-video --loop --quiet &
+    sleep 2  # Pequeno delay para evitar sobrecarga
+done
+
+echo "Todas as transmissões foram iniciadas."
